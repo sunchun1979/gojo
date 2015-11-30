@@ -1,0 +1,1 @@
+evolManager.o: evolManager/evolManager.cpp evolManager/gameEngine.h
