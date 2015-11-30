@@ -4,6 +4,7 @@
 #include <string>
 #include <iostream>
 #include <cstdio>
+#include <vector>
 #include <cstdlib>
 #include "common.h"
 
@@ -23,5 +24,8 @@ class Player
         }
 
         string genMove(GameEngine* engine, int c);
+
+    private:
+        vector<pair<int,int>> parseFrom(string s);
 };
 #endif
