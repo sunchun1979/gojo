@@ -9,6 +9,8 @@
 
 #include "common.h"
 
+#define ENGINE_BUF_SIZE 2048
+
 using namespace std;
 
 class Player;
@@ -18,13 +20,13 @@ class GameEngine
     private:
         int pfd_a[2];
         int pfd_b[2];
-        char gnugo_line[1024], client_line[1024];
+        char gnugo_line[ENGINE_BUF_SIZE], client_line[ENGINE_BUF_SIZE];
         int length = 0;
         int verbose = 1;
         FILE *to_gnugo_stream, *from_gnugo_stream;
 
         int m_size;
-        int m_depth = 50;
+        int m_depth = 35;
 
     public:
         GameEngine(int size);

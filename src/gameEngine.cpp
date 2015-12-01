@@ -33,6 +33,7 @@ string GameEngine::execute(string command)
 
 int GameEngine::game(Player* p1, Player* p2)
 {
+    execute("clear_board");
     for (int i=0;i<m_depth;++i)
     //for (int i=0;i<28;++i)
     {
@@ -44,7 +45,7 @@ int GameEngine::game(Player* p1, Player* p2)
         {
             break;
         }
-        move = p1->genMove(this,1);
+        move = p2->genMove(this,1);
         if (!move.empty())
             execute("play white " + move);
         else
@@ -53,7 +54,7 @@ int GameEngine::game(Player* p1, Player* p2)
         }
     }
     cout << execute("estimate_score") << endl;
-    execute("showboard");
+    p1->featurize(this);
 }
 
 void GameEngine::error(string errmsg)
@@ -111,7 +112,7 @@ string GameEngine::readFrom()
     int length = 0;
     while(length!=1)
     {
-        if (!fgets(gnugo_line,1024,from_gnugo_stream))
+        if (!fgets(gnugo_line,ENGINE_BUF_SIZE,from_gnugo_stream))
             error("readFrom fails");
         length=strlen(gnugo_line);
         ret = ret + gnugo_line;
