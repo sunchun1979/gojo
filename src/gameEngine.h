@@ -18,18 +18,19 @@ class GameEngine
     private:
         int pfd_a[2];
         int pfd_b[2];
-        char gnugo_line[128], client_line[128];
+        char gnugo_line[1024], client_line[1024];
         int length = 0;
         int verbose = 1;
         FILE *to_gnugo_stream, *from_gnugo_stream;
 
         int m_size;
-        int m_depth = 20;
+        int m_depth = 50;
 
     public:
         GameEngine(int size);
         ~GameEngine()
         {
+            closeGNUGo();
         }
 
         string execute(string command);

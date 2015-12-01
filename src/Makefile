@@ -1,7 +1,7 @@
 CC=gcc
 CXX=g++
 RM=rm -f
-CPPFLAGS=-std=c++11 -g $(shell root-config --cflags)
+CPPFLAGS=-std=c++11 -O3 -g $(shell root-config --cflags)
 LDFLAGS=-g $(shell root-config --ldflags)
 #LDLIBS=$(shell root-config --libs)
 

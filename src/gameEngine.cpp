@@ -19,18 +19,41 @@ GameEngine::GameEngine(int size):m_size(size)
 
 string GameEngine::execute(string command)
 {
+    //cout << "command: " << command << endl;
+    //cout.flush();
     if (writeTo(command) == 0)
+    {
+        //string p = readFrom();
+        //cout << "return: " << p;
+        //cout.flush();
+        //return p;
         return readFrom();
+    }
 }
 
 int GameEngine::game(Player* p1, Player* p2)
 {
     for (int i=0;i<m_depth;++i)
+    //for (int i=0;i<28;++i)
     {
-        execute("play black " + p1->genMove(this, 0));
-        execute("play white " + p1->genMove(this, 1));
+        string move;
+        move = p1->genMove(this,0);
+        if (!move.empty())
+            execute("play black " + move);
+        else
+        {
+            break;
+        }
+        move = p1->genMove(this,1);
+        if (!move.empty())
+            execute("play white " + move);
+        else
+        {
+            break;
+        }
     }
     cout << execute("estimate_score") << endl;
+    execute("showboard");
 }
 
 void GameEngine::error(string errmsg)
@@ -67,6 +90,7 @@ void GameEngine::startGNUGo()
 
 void GameEngine::closeGNUGo()
 {
+    execute("quit");
     if (to_gnugo_stream != NULL)
         fclose(to_gnugo_stream);
     if (from_gnugo_stream != NULL)
@@ -75,7 +99,6 @@ void GameEngine::closeGNUGo()
 
 int GameEngine::writeTo(string command)
 {
-    //cout << command << endl;
     if (fprintf(to_gnugo_stream, "%s\n", command.c_str()) < 0)
         error("writeTo fails: " + command);
     fflush(to_gnugo_stream);
@@ -88,11 +111,12 @@ string GameEngine::readFrom()
     int length = 0;
     while(length!=1)
     {
-        if (!fgets(gnugo_line,128,from_gnugo_stream))
+        if (!fgets(gnugo_line,1024,from_gnugo_stream))
             error("readFrom fails");
         length=strlen(gnugo_line);
         ret = ret + gnugo_line;
     }
+    fflush(stderr);
     return ret;
 }
 
