@@ -3,6 +3,7 @@
 #include <cstdlib>
 #include <vector>
 #include <string>
+#include <cfloat>
 #include <algorithm>
 #include <iomanip>
 #include "common.h"
@@ -19,25 +20,39 @@ string Player::genMove(GameEngine* engine, int c)
         return "";
     }
     vector<pair<int,int>> v = parseFrom(candidate);
-    return genMoveRandom(v);
+    //return genMoveRandom(v);
+    return predict(engine, v);
 }
 
-string Player::genMoveRandom(vector<pair<int,int>>& v)
+string Player::genMoveRnd(GameEngine* engine, int c)
 {
-    //    int ii = rand()%v.size();
-    //    auto p = v[ii];
-    //    string ret = POS2STR(p);
-    //    cout << "[" << candidate << "]" << endl << ii << endl << p.first << "," << p.second << endl << ret << endl;
-    //    return ret;
+    string candidate = engine->execute("all_legal " + COLOR[c]);
+    if (candidate.length()<=4)
+    {
+        return "";
+    }
+    vector<pair<int,int>> v = parseFrom(candidate);
     return POS2STR(v[rand()%v.size()]);
 }
 
-void Player::predict(GameEngine* engine)
+string Player::predict(GameEngine* engine, vector<pair<int,int>>& v)
 {
     featurize(engine);
-    printInput();
+    //printInput();
     m_NN->forward(m_input,m_output);
-    printOutput();
+    //printOutput();
+    int x,y;
+    float max = -FLT_MAX;
+    for (int i;i<v.size();++i)
+    {
+        if ((*m_output)(v[i].first*m_size + v[i].second) > max)
+        {
+            x = v[i].first;
+            y = v[i].second;
+            max = (*m_output)(v[i].first*m_size+ v[i].second);
+        }
+    }
+    return POS2STR(make_pair(x,y));
 }
 
 void Player::featurize(GameEngine* engine)

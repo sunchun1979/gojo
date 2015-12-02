@@ -85,6 +85,7 @@ void CNN::expandConv(Marray<float,1>* input, Marray<float,2>* output)
 
 void CNN::ptTanh(Marray<float,1>* t)
 {
+    t->normalize();
     for(int i1=0;i1<t->get_dim1();++i1)
         (*t)(i1) = tanh((*t)(i1));
 }

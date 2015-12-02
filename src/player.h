@@ -49,16 +49,16 @@ class Player
         }
 
         string genMove(GameEngine* engine, int c);
+        string genMoveRnd(GameEngine* engine, int c);
         void featurize(GameEngine* engine);
         float parseFeature(int x, int y, int F, GameEngine* engine);
 
-        void predict(GameEngine* engine);
+        string predict(GameEngine* engine, vector<pair<int,int>>& v);
         void printOutput();
         void printInput();
 
     private:
         vector<pair<int,int>> parseFrom(string s);
         void initialize();
-        string genMoveRandom(vector<pair<int,int>>& v);
 };
 #endif

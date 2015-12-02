@@ -34,8 +34,11 @@ string GameEngine::execute(string command)
 int GameEngine::game(Player* p1, Player* p2)
 {
     execute("clear_board");
+    execute("komi 7.5");
+    // first two moves random
+    execute("play black " + p1->genMoveRnd(this,0));
+    execute("play white " + p1->genMoveRnd(this,0));
     for (int i=0;i<m_depth;++i)
-    //for (int i=0;i<28;++i)
     {
         string move;
         move = p1->genMove(this,0);
@@ -53,7 +56,8 @@ int GameEngine::game(Player* p1, Player* p2)
             break;
         }
     }
-    cout << execute("estimate_score") << endl;
+    string result = execute("estimate_score");
+    return (result[2] == 'B');
 }
 
 void GameEngine::error(string errmsg)
