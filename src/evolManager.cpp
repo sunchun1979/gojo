@@ -17,4 +17,5 @@ int main(int argc, char* argv[])
     ge1.game(&p1,&p2);
     cout << ge1.execute("showboard") << endl;
     cout.flush();
+    p1.predict(&ge1);
 }

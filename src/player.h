@@ -7,6 +7,7 @@
 #include <vector>
 #include <cstdlib>
 #include "common.h"
+#include "nn.h"
 
 #include "../utils/ltensor/LTensor.h"
 
@@ -18,8 +19,9 @@ class Player
 {
     private:
         int m_size = 9;
-        vector< Marray<float,4>* > m_convLayer;
         Marray<float,1>* m_input = NULL;
+        Marray<float,1>* m_output = NULL;
+        CNN* m_NN;
 
     public:
         Player()
@@ -29,24 +31,30 @@ class Player
 
         ~Player()
         {
-            for(int i=0;i<N_LAYERS;++i)
-            {
-                if (m_convLayer[i]!=NULL)
-                {
-                    delete m_convLayer[i];
-                    m_convLayer[i] = NULL;
-                }
-            }
             if (m_input!=NULL)
             {
                 delete m_input;
                 m_input = NULL;
+            }
+            if (m_output!=NULL)
+            {
+                delete m_output;
+                m_output = NULL;
+            }
+            if (m_NN != NULL)
+            {
+                delete m_NN;
+                m_NN = NULL;
             }
         }
 
         string genMove(GameEngine* engine, int c);
         void featurize(GameEngine* engine);
         float parseFeature(int x, int y, int F, GameEngine* engine);
+
+        void predict(GameEngine* engine);
+        void printOutput();
+        void printInput();
 
     private:
         vector<pair<int,int>> parseFrom(string s);

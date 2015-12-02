@@ -54,7 +54,6 @@ int GameEngine::game(Player* p1, Player* p2)
         }
     }
     cout << execute("estimate_score") << endl;
-    p1->featurize(this);
 }
 
 void GameEngine::error(string errmsg)
