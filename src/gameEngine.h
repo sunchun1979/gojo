@@ -37,6 +37,7 @@ class GameEngine
 
         string execute(string command);
         int game(Player* p1, Player* p2);
+        void game_human(Player* p1, int computer_color);
 
     private:
         void error(string errmsg);

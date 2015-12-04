@@ -131,3 +131,60 @@ void CNN::initialize()
     }
 }
 
+void CNN::saveTo(string fname)
+{
+    ofstream out;
+    out.open(fname,ios::binary);
+    out.write(reinterpret_cast<char*>(&m_layers),sizeof(int));
+    out.write(reinterpret_cast<char*>(&m_size),sizeof(int));
+    out.write(reinterpret_cast<char*>(&m_channels),sizeof(int));
+    for(int i=0;i<m_layers;++i)
+    {
+        int temp;
+        temp = m_convLayer[i]->get_dim1(); out.write(reinterpret_cast<char*>(&temp),sizeof(int));
+        temp = m_convLayer[i]->get_dim2(); out.write(reinterpret_cast<char*>(&temp),sizeof(int));
+        temp = m_convLayer[i]->get_dim3(); out.write(reinterpret_cast<char*>(&temp),sizeof(int));
+        float value;
+        for(int i1=0;i1<m_convLayer[i]->get_dim1();++i1)
+            for(int i2=0;i2<m_convLayer[i]->get_dim2();++i2)
+                for(int i3=0;i3<m_convLayer[i]->get_dim3();++i3)
+                {
+                    value = (*m_convLayer[i])(i1,i2,i3);
+                    out.write(reinterpret_cast<char*>(&value),sizeof(float));
+                } 
+    }
+    out.close();
+}
+
+void CNN::loadFrom(string fname)
+{
+    for(int i=0;i<m_layers;++i) delete m_convLayer[i];
+    ifstream in;
+    in.open(fname,ios::binary);
+    in.read(reinterpret_cast<char*>(&m_layers), sizeof(int));
+    in.read(reinterpret_cast<char*>(&m_size), sizeof(int));
+    in.read(reinterpret_cast<char*>(&m_channels), sizeof(int));
+    cout << m_layers << " " << m_size << " " << m_channels << endl;
+    m_convLayer.resize(m_layers);
+
+    for(int i=0;i<m_layers;++i)
+    {
+        int dim[3];
+        for(int j=0;j<3;++j)
+        {
+            in.read(reinterpret_cast<char*>(&dim[j]),sizeof(int));
+        }
+        cout << "[" << i << "]: " << dim[0] << " " << dim[1] << " " << dim[2] << endl;
+        m_convLayer[i] = new Marray<float,3>(dim[0], dim[1], dim[2]);
+        float value;
+        for(int i1=0;i1<m_convLayer[i]->get_dim1();++i1)
+            for(int i2=0;i2<m_convLayer[i]->get_dim2();++i2)
+                for(int i3=0;i3<m_convLayer[i]->get_dim3();++i3)
+                {
+                    in.read(reinterpret_cast<char*>(&value),sizeof(float));
+                    (*m_convLayer[i])(i1,i2,i3) = value;
+                } 
+    }
+    in.close();
+}
+

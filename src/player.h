@@ -56,6 +56,8 @@ class Player
         string predict(GameEngine* engine, vector<pair<int,int>>& v);
         void printOutput();
         void printInput();
+        void saveTo(string fname);
+        void loadFrom(string fname);
 
     private:
         vector<pair<int,int>> parseFrom(string s);

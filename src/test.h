@@ -15,7 +15,9 @@ class Test
 
         void Run()
         {
-            TestSpaceContinuity();
+            //TestSpaceContinuity();
+            //TestPlayerIO();
+            TestInteractive();
         }
 
     private:
@@ -69,6 +71,20 @@ class Test
             }
             cout << "Total Inconsistency: " << inConsistent << endl;
             cout.flush();
+        }
 
+        void TestPlayerIO()
+        {
+            Player a;
+            a.saveTo("saved_nn.bin");
+            a.loadFrom("saved_nn.bin");
+        }
+
+        void TestInteractive()
+        {
+            Player a;
+            a.loadFrom("saved_nn.bin");
+            GameEngine ge1(9);
+            ge1.game_human(&a, BLACK);
         }
 };

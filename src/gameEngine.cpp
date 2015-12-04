@@ -31,6 +31,35 @@ string GameEngine::execute(string command)
     }
 }
 
+void GameEngine::game_human(Player* p1, int computer_color)
+{
+    execute("clear_board");
+    execute("komi 7.5");
+    string cmdComputer;
+    string cmdHuman;
+    if (computer_color == BLACK)
+    {
+        cmdComputer = "play black ";
+        cmdHuman = "play white ";
+        execute(cmdComputer + p1->genMove(this,computer_color));
+    }else
+    {
+        cmdComputer = "play white";
+        cmdHuman = "play black ";
+    }
+    string vtx = "";
+    cout << execute("showboard") << endl;
+    cout.flush();
+    cin >> vtx;
+    while(vtx != "end")
+    {
+        execute(cmdHuman + vtx);
+        execute(cmdComputer + p1->genMove(this,computer_color));
+        cout << execute("showboard") << endl; cout.flush();
+        cin >> vtx;
+    }
+}
+
 int GameEngine::game(Player* p1, Player* p2)
 {
     execute("clear_board");

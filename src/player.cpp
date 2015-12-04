@@ -186,3 +186,13 @@ void Player::printOutput()
 {
     printVec(m_output, m_size, 1, "output");
 }
+
+void Player::saveTo(string fname)
+{
+    m_NN->saveTo(fname);
+}
+
+void Player::loadFrom(string fname)
+{
+    m_NN->loadFrom(fname);
+}
