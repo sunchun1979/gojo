@@ -5,15 +5,15 @@ CPPFLAGS=-std=c++11 -O3 -g $(shell root-config --cflags)
 LDFLAGS=-g $(shell root-config --ldflags)
 #LDLIBS=$(shell root-config --libs)
 
-EXESRC=../bin/evolManager.exe
+EXESRC=../bin/gojo.exe
 
 all: target 
 
-target: evolManager.o gameEngine.o player.o nn.o
-	$(CXX) $(LDFLAGS) -o $(EXESRC) evolManager.o gameEngine.o player.o nn.o
+target: main.o evolEngine.o gameEngine.o player.o nn.o
+	$(CXX) $(LDFLAGS) -o $(EXESRC) main.o evolEngine.o gameEngine.o player.o nn.o
 
-evolManager.o: evolManager.cpp gameEngine.h player.h common.h
-	$(CXX) $(CPPFLAGS) -c evolManager.cpp
+evolEngine.o: evolEngine.cpp gameEngine.h player.h common.h
+	$(CXX) $(CPPFLAGS) -c evolEngine.cpp
 
 gameEngine.o: gameEngine.cpp gameEngine.h player.h common.h
 	$(CXX) $(CPPFLAGS) -c gameEngine.cpp
@@ -23,6 +23,9 @@ player.o: player.cpp player.h gameEngine.h common.h
 
 nn.o: nn.cpp nn.h common.h
 	$(CXX) $(CPPFLAGS) -c nn.cpp
+
+main.o: main.cpp test.h common.h player.h gameEngine.h
+	$(CXX) $(CPPFLAGS) -c main.cpp
 
 clean:
 	rm -f *.o 
