@@ -26,6 +26,7 @@ class CNN
 
     public:
         CNN(vector<vector<int>>& shape, int size, int channels);
+        CNN(vector<CNN*>& samples, vector<float>& weights);
         ~CNN();
         void forward(Marray<float,1>* input, Marray<float,1>* output);
         void expandConv(Marray<float,1>* input, Marray<float,2>* output);
@@ -35,6 +36,7 @@ class CNN
 
     private:
         void initialize();
+        void perturb();
         float getKernelInput(Marray<float,1>* input, int shift, int i0, int j0, int size, int k, int kernelSize);
 
 };

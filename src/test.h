@@ -17,7 +17,9 @@ class Test
         {
             //TestSpaceContinuity();
             //TestPlayerIO();
-            TestInteractive();
+            //TestInteractive();
+            //TestTensorAvg();
+            TestNN();
         }
 
     private:
@@ -86,5 +88,38 @@ class Test
             a.loadFrom("saved_nn.bin");
             GameEngine ge1(9);
             ge1.game_human(&a, BLACK);
+        }
+
+        void TestTensorAvg()
+        {
+            Marray<float,2> A(2,2);
+            A(0,0) = 1; A(0,1) = 2; A(1,0) = 3; A(1,1) = 4;
+            Marray<float,2> B(2,2);
+            B(0,0) = 10; B(0,1) = 20; B(1,0) = 30; B(1,1) = 40;
+            Marray<float,2> C(2,2);
+            Index<'i'> i;
+            Index<'j'> j;
+            C(i,j) = A(i,j) * 0.5 + B(i,j) * 0.5;
+            cout << A << endl << B << endl << C << endl;
+        }
+
+        void TestNN()
+        {
+            vector<vector<int>> shape(4);
+            // shape (input, output, kernel)
+            shape[0] = {1210,1210,9};
+            shape[1] = {1210,1210,9};
+            shape[2] = {1210,1210,9};
+            shape[3] = {1210,121,9};
+            vector<CNN*> vn(3);
+            vn[0] = new CNN(shape, 11, 10);
+            vn[1] = new CNN(shape, 11, 10);
+            vn[2] = new CNN(shape, 11, 10);
+            vector<float> weights = { 0.5, 0.2, 0.2, 0.1 };
+            CNN* nn = new CNN(vn, weights);
+            delete nn;
+            delete vn[0];
+            delete vn[1];
+            delete vn[2];
         }
 };

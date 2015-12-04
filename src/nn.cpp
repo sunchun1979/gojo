@@ -15,6 +15,34 @@ CNN::CNN(vector<vector<int>>& shape, int size, int channels)
         m_convLayer[i] = new Marray<float,3>(shape[i][0], shape[i][1], shape[i][2]);
     }
     initialize();
+    perturb();
+}
+
+CNN::CNN(vector<CNN*>& samples, vector<float>& weights)
+{
+    m_size = samples[0]->m_size;
+    m_channels = samples[0]->m_channels;
+    m_layers = samples[0]->m_layers;
+    m_convLayer.resize(m_layers);
+    for(int i=0;i<m_layers;++i)
+    {
+        int dim1, dim2, dim3;
+        dim1 = samples[0]->m_convLayer[i]->get_dim1();
+        dim2 = samples[0]->m_convLayer[i]->get_dim2();
+        dim3 = samples[0]->m_convLayer[i]->get_dim3();
+        m_convLayer[i] = new Marray<float,3>(dim1, dim2, dim3);
+    }
+    for(int i=0;i<m_layers;++i)
+    {
+        for(int s=0;s<samples.size();++s)
+        {
+            Index<'i'> i1;
+            Index<'j'> i2;
+            Index<'k'> i3;
+            (*m_convLayer[i])(i1,i2,i3) += ((*samples[s]->m_convLayer[i])(i1,i2,i3)*weights[s]);
+        }
+    }
+    perturb();
 }
 
 CNN::~CNN()
@@ -112,8 +140,23 @@ float CNN::getKernelInput(Marray<float,1>* input, int shift, int i0, int j0, int
 
 void CNN::initialize()
 {
+    for(int i=0;i<m_layers;++i)
+    {
+        for(int i1=0;i1<m_convLayer[i]->get_dim1();++i1)
+            for(int i2=0;i2<m_convLayer[i]->get_dim2();++i2)
+                for(int i3=0;i3<m_convLayer[i]->get_dim3();++i3)
+                {
+                    float v = 1;
+                    if (rand() < RAND_MAX/2) v = -1;
+                    (*m_convLayer[i])(i1,i2,i3) = v;
+                }
+    }
+}
+
+void CNN::perturb()
+{
     std::default_random_engine generator;
-    std::normal_distribution<float> distribution(1.0,0.5);
+    std::normal_distribution<float> distribution(0,0.5);
     for(int i=0;i<m_layers;++i)
     {
         for(int i1=0;i1<m_convLayer[i]->get_dim1();++i1)
@@ -121,12 +164,7 @@ void CNN::initialize()
                 for(int i3=0;i3<m_convLayer[i]->get_dim3();++i3)
                 {
                     float v = distribution(generator);
-                    if (rand() < RAND_MAX/2) v *= -1;
-                    /*if ((i1==i2)) 
-                      {
-                      v = 1;
-                      }*/
-                    (*m_convLayer[i])(i1,i2,i3) = v;
+                    (*m_convLayer[i])(i1,i2,i3) += v;
                 }
     }
 }
