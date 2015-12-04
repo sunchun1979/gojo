@@ -14,13 +14,13 @@ using namespace std;
 
 string Player::genMove(GameEngine* engine, int c)
 {
+    //return genMoveRnd(engine, c);
     string candidate = engine->execute("all_legal " + COLOR[c]);
     if (candidate.length()<=4)
     {
         return "";
     }
     vector<pair<int,int>> v = parseFrom(candidate);
-    //return genMoveRandom(v);
     return predict(engine, v);
 }
 

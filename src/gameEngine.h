@@ -26,7 +26,7 @@ class GameEngine
         FILE *to_gnugo_stream, *from_gnugo_stream;
 
         int m_size;
-        int m_depth = 35;
+        int m_depth = 30;
 
     public:
         GameEngine(int size);
