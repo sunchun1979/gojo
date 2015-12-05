@@ -29,6 +29,7 @@ class GameEngine
         int m_depth = 30;
 
     public:
+        GameEngine();
         GameEngine(int size);
         ~GameEngine()
         {

@@ -14,7 +14,6 @@ using namespace std;
 int main(int argc, char* argv[])
 {
     Test t;
-    //t.TestInteractive(argv[1]);
-    t.TestPlayer();
+    t.TestInteractive(argv[1]);
 }
 

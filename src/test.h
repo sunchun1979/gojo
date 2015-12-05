@@ -20,7 +20,8 @@ class Test
             //TestInteractive();
             //TestTensorAvg();
             //TestNN();
-            TestPlayer();
+            //TestPlayer();
+            //TestEvol();
         }
 
         void TestSpaceContinuity()
@@ -138,5 +139,12 @@ class Test
                 delete candidates[i];
             }
             delete newPlayer;
+        }
+
+        void TestEvol()
+        {
+            evolEngine evol;
+            evol.initialize();
+            evol.elimination();
         }
 };

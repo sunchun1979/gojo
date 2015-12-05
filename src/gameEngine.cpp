@@ -10,6 +10,10 @@
 
 using namespace std;
 
+GameEngine::GameEngine() : GameEngine(9)
+{
+}
+
 GameEngine::GameEngine(int size):m_size(size)
 {
     startGNUGo();
