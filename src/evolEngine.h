@@ -30,9 +30,13 @@ class evolEngine
         ~evolEngine();
 
         int compare(Player* p1, Player* p2);
+        int compare(int p1, int p2);
         void finalize();
         void initialize();
         void elimination();
+
+    private:
+        void binaryElimination(int begin, int end, int& top, int& bot);
 };
 
 #endif
