@@ -12,6 +12,28 @@
 
 using namespace std;
 
+Player::Player()
+{
+    initialize();
+    int F = m_size*m_size*N_FEATURES;
+    vector<vector<int>> shape(4);
+    shape[0] = {F,F,9};
+    shape[1] = {F,F,9};
+    shape[2] = {F,F,9};
+    shape[3] = {F,m_size*m_size,9};
+    m_NN = new CNN(shape, m_size, N_FEATURES);
+}
+
+Player::Player(vector<Player*> candidates, vector<float> weights)
+{
+    initialize();
+    int cSize = candidates.size();
+    vector<CNN*> nnc(cSize);
+    for(int i=0;i<cSize;++i)
+        nnc[i] = candidates[i]->m_NN;
+    m_NN = new CNN(nnc, weights);
+}
+
 string Player::genMove(GameEngine* engine, int c)
 {
     //return genMoveRnd(engine, c);
@@ -166,15 +188,7 @@ void Player::initialize()
 {
     int F = m_size*m_size*N_FEATURES;
     m_input = new Marray<float,1>(F);
-    vector<vector<int>> shape(4);
-    // shape (input, output, kernel)
-    shape[0] = {F,F,9};
-    shape[1] = {F,F,9};
-    shape[2] = {F,F,9};
-    shape[3] = {F,m_size*m_size,9};
     m_output = new Marray<float,1>(m_size*m_size);
-    //m_output = new Marray<float,1>(F);
-    m_NN = new CNN(shape, m_size, N_FEATURES);
 }
 
 void Player::printInput()

@@ -13,8 +13,8 @@ using namespace std;
 
 int main(int argc, char* argv[])
 {
-    srand(time(0));
     Test t;
-    t.TestNN();
+    //t.TestInteractive(argv[1]);
+    t.TestPlayer();
 }
 

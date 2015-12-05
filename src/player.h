@@ -24,10 +24,8 @@ class Player
         CNN* m_NN;
 
     public:
-        Player()
-        {
-            initialize();
-        }
+        Player();
+        Player(vector<Player*> candidates, vector<float> weights);
 
         ~Player()
         {

@@ -19,10 +19,10 @@ class Test
             //TestPlayerIO();
             //TestInteractive();
             //TestTensorAvg();
-            TestNN();
+            //TestNN();
+            TestPlayer();
         }
 
-    private:
         void TestSpaceContinuity()
         {
             int N = 11;
@@ -82,10 +82,10 @@ class Test
             a.loadFrom("saved_nn.bin");
         }
 
-        void TestInteractive()
+        void TestInteractive(string fname)
         {
             Player a;
-            a.loadFrom("saved_nn.bin");
+            a.loadFrom(fname);
             GameEngine ge1(9);
             ge1.game_human(&a, BLACK);
         }
@@ -121,5 +121,22 @@ class Test
             delete vn[0];
             delete vn[1];
             delete vn[2];
+        }
+
+        void TestPlayer()
+        {
+            vector<Player*> candidates(6);
+            vector<float> weights = { 0.5, 0.1, 0.1, 0.1, 0.1, 0.1 };
+            for(int i=0;i<candidates.size();++i)
+            {
+                candidates[i] = new Player();
+            }
+            Player* newPlayer = new Player(candidates, weights);
+
+            for(int i=0;i<candidates.size();++i)
+            {
+                delete candidates[i];
+            }
+            delete newPlayer;
         }
 };
