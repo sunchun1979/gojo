@@ -18,12 +18,14 @@ struct EvolConfiguration
 class evolEngine
 {
     private:
+        static const int MAX_ROUND = 100;
         GameEngine* m_gameEngine = NULL;
-        string m_file_currentTop;
         vector<Player*> m_candidate;
+        int m_roundTrack;
 
     public:
         EvolConfiguration m_config;
+        string m_fname_prefix = "nn";
 
     public:
         evolEngine();
@@ -33,7 +35,11 @@ class evolEngine
         int compare(int p1, int p2);
         void finalize();
         void initialize();
+        void restart();
         void elimination();
+        void addPlayer();
+        void saveTop();
+        void Run();
 
     private:
         void binaryElimination(int begin, int end, int& top, int& bot);

@@ -146,5 +146,6 @@ class Test
             evolEngine evol;
             evol.initialize();
             evol.elimination();
+            evol.addPlayer();
         }
 };
