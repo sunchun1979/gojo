@@ -1,3 +1,4 @@
+#include <algorithm>
 #include <cstdio>
 #include <iostream>
 #include <ctime>
@@ -94,6 +95,9 @@ void evolEngine::initialize()
 void evolEngine::elimination()
 {
     int top, bot;
+    std::random_shuffle(m_candidate.begin(), m_candidate.end());
+    for(int i=0;i<m_candidate.size();++i)
+        m_candidate[i]->perturb();
     binaryElimination(0, m_config.PoolSize-1, top, bot);
     cout << "final top " << top << " bot " << bot << endl;
     std::swap(m_candidate[0], m_candidate[top]);

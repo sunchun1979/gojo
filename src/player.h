@@ -46,7 +46,7 @@ class Player
             }
         }
 
-        string genMove(GameEngine* engine, int c);
+        virtual string genMove(GameEngine* engine, int c);
         string genMoveRnd(GameEngine* engine, int c);
         void featurize(GameEngine* engine);
         float parseFeature(int x, int y, int F, GameEngine* engine);
@@ -56,9 +56,22 @@ class Player
         void printInput();
         void saveTo(string fname);
         void loadFrom(string fname);
+        void perturb();
 
     private:
         vector<pair<int,int>> parseFrom(string s);
         void initialize();
 };
+
+class PlayerRnd : public Player
+{
+    public:
+        PlayerRnd() : Player() {}
+        ~PlayerRnd() {}
+        string genMove(GameEngine* engine, int c)
+        {
+            return genMoveRnd(engine, c);
+        }
+};
+
 #endif

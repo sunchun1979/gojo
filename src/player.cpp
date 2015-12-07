@@ -77,6 +77,11 @@ string Player::predict(GameEngine* engine, vector<pair<int,int>>& v)
     return POS2STR(make_pair(x,y));
 }
 
+void Player::perturb()
+{
+    m_NN->perturb();
+}
+
 void Player::featurize(GameEngine* engine)
 {
     vector<pair<int,int>> tmp;

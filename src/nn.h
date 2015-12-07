@@ -33,10 +33,10 @@ class CNN
         void ptTanh(Marray<float,1>* t);
         void saveTo(string fname);
         void loadFrom(string fname);
+        void perturb();
 
     private:
         void initialize();
-        void perturb();
         float getKernelInput(Marray<float,1>* input, int shift, int i0, int j0, int size, int k, int kernelSize);
 
 };

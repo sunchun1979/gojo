@@ -148,4 +148,84 @@ class Test
             evol.elimination();
             evol.addPlayer();
         }
+
+        void TestAgainstGNUGo(string fname)
+        {
+            Player a;
+            a.loadFrom(fname);
+            GameEngine ge1(9);
+            int wb = 0;
+            cout << "TestGNUGO: " << endl;
+            for (int i = 0; i<50; ++i)
+            {
+                cout << "(" << wb << "/" << i << ") ";
+                cout.flush();
+                if (ge1.game_gnugo(&a,BLACK)) ++wb;
+            }
+            int ww = 0;
+            for (int i = 0; i<50; ++i)
+            {
+                cout << "(" << ww << "/" << i << ") ";
+                cout.flush();
+                if (!ge1.game_gnugo(&a,WHITE)) ++ww;
+            }
+            cout << "TestGNUGO (white): " << ww << "/50" << endl;
+            cout << "TestGNUGo (total): " << wb+ww << "/100" << endl;
+        }
+
+        void TestAgainstRandom(string fname)
+        {
+            Player a;
+            a.loadFrom(fname);
+            GameEngine ge1(9);
+
+            int wb = 0;
+            cout << "Test Random: " << endl;
+            for (int i = 0; i<50; ++i)
+            {
+                cout << "(" << wb << "/" << i << ") ";
+                cout.flush();
+                PlayerRnd b;
+                if (ge1.game(&a,&b)) ++wb;
+            }
+            cout << "TestRandom (black): " << wb << "/50" << endl;
+            int ww = 0;
+            for (int i = 0; i<50; ++i)
+            {
+                cout << "(" << ww << "/" << i << ") ";
+                cout.flush();
+                PlayerRnd b;
+                if (!ge1.game(&b,&a)) ++ww;
+            }
+            cout << "TestRandom (white): " << ww << "/50" << endl;
+            cout << "TestRandom (total): " << wb+ww << "/100" << endl;
+        }
+
+        void TestAgainstNNRandom(string fname)
+        {
+            Player a;
+            a.loadFrom(fname);
+            GameEngine ge1(9);
+
+            int wb = 0;
+            cout << "Test Random NN: " << endl;
+            for (int i = 0; i<50; ++i)
+            {
+                cout << "(" << wb << "/" << i << ") ";
+                cout.flush();
+                Player b;
+                if (ge1.game(&a,&b)) ++wb;
+            }
+            cout << "TestRandom NN (black): " << wb << "/50" << endl;
+            int ww = 0;
+            for (int i = 0; i<50; ++i)
+            {
+                cout << "(" << ww << "/" << i << ") ";
+                cout.flush();
+                Player b;
+                if (!ge1.game(&b,&a)) ++ww;
+            }
+            cout << "TestRandom NN (white): " << ww << "/50" << endl;
+            cout << "TestRandom NN (total): " << wb+ww << "/100" << endl;
+        }
 };

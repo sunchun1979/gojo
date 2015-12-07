@@ -93,6 +93,32 @@ int GameEngine::game(Player* p1, Player* p2)
     return (result[2] == 'B');
 }
 
+int GameEngine::game_gnugo(Player* p1, int computer_color)
+{
+    execute("clear_board");
+    execute("komi 7.5");
+    string cmdComputer;
+    string cmdGnugo;
+    if (computer_color == BLACK)
+    {
+        cmdComputer = "play black ";
+        cmdGnugo = "genmove white";
+        execute(cmdComputer + p1->genMove(this,computer_color));
+    }else
+    {
+        cmdComputer = "play white";
+        cmdGnugo = "genmove black";
+    }
+    string vtx = "";
+    while(vtx.substr(0,6) != "= PASS")
+    {
+        vtx = execute(cmdGnugo);
+        execute(cmdComputer + p1->genMove(this,computer_color));
+    }
+    string result = execute("estimate_score");
+    return (result[2] == 'B');
+}
+
 void GameEngine::error(string errmsg)
 {
     cerr << errmsg << endl;
