@@ -1,5 +1,6 @@
 #include <cmath>
 #include <random>
+#include <algorithm>
 #include "nn.h"
 
 using namespace std;
@@ -77,9 +78,9 @@ void CNN::forward(Marray<float,1>* input, Marray<float,1>* output)
 
         //printVec(m_output, m_size, m_channels, "Layer " + to_string(i) + " ");
 
-        //tanh
+        //non-linear
         if (i<m_layers-1)
-            ptTanh(m_output);
+            nonlinear(m_output);
 
     }
 
@@ -111,11 +112,16 @@ void CNN::expandConv(Marray<float,1>* input, Marray<float,2>* output)
     }
 }
 
-void CNN::ptTanh(Marray<float,1>* t)
+void CNN::nonlinear(Marray<float,1>* t)
 {
     t->normalize();
     for(int i1=0;i1<t->get_dim1();++i1)
-        (*t)(i1) = tanh((*t)(i1));
+    {
+        // simple tanh;
+        // (*t)(i1) = tanh((*t)(i1));
+        // simple relu
+        (*t)(i1) = std::max(0.0F,(*t)(i1));
+    }
 }
 
 float CNN::getKernelInput(Marray<float,1>* input, int shift, int i0, int j0, int size, int k, int kernelSize)

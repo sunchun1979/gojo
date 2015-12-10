@@ -30,7 +30,7 @@ class CNN
         ~CNN();
         void forward(Marray<float,1>* input, Marray<float,1>* output);
         void expandConv(Marray<float,1>* input, Marray<float,2>* output);
-        void ptTanh(Marray<float,1>* t);
+        void nonlinear(Marray<float,1>* t);
         void saveTo(string fname);
         void loadFrom(string fname);
         void perturb();
