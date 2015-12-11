@@ -58,7 +58,13 @@ int evolEngine::compare(Player* p1, Player* p2)
     int p1wins = 0;
     for (int i=0;i<m_config.CompareRounds;++i)
     {
-        if (m_gameEngine->game(p1,p2)) p1wins++;
+        if (rand() < RAND_MAX/2)
+        {
+            if (m_gameEngine->game(p1,p2)) p1wins++;
+        }else
+        {
+            if (!m_gameEngine->game(p2,p1)) p1wins++;
+        }
     }
     return (2*p1wins > m_config.CompareRounds);
 }

@@ -38,7 +38,7 @@ string GameEngine::execute(string command)
 void GameEngine::game_human(Player* p1, int computer_color)
 {
     execute("clear_board");
-    execute("komi 7.5");
+    execute("komi " + std::to_string(KOMI9));
     string cmdComputer;
     string cmdHuman;
     if (computer_color == BLACK)
@@ -67,7 +67,7 @@ void GameEngine::game_human(Player* p1, int computer_color)
 int GameEngine::game(Player* p1, Player* p2)
 {
     execute("clear_board");
-    execute("komi 7.5");
+    execute("komi " + std::to_string(KOMI9));
     // first two moves random
     execute("play black " + p1->genMoveRnd(this,0));
     execute("play white " + p1->genMoveRnd(this,0));
@@ -96,7 +96,7 @@ int GameEngine::game(Player* p1, Player* p2)
 int GameEngine::game_gnugo(Player* p1, int computer_color)
 {
     execute("clear_board");
-    execute("komi 7.5");
+    execute("komi " + std::to_string(KOMI9));
     string cmdComputer;
     string cmdGnugo;
     if (computer_color == BLACK)

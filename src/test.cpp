@@ -15,7 +15,7 @@ int main(int argc, char* argv[])
 {
     Test t;
     //t.TestInteractive(argv[1]);
-    //t.TestAgainstRandom(argv[1]);
+    t.TestAgainstRandom(argv[1]);
     //t.TestAgainstGNUGo(argv[1]);
     t.TestAgainstNNRandom(argv[1]);
 }
